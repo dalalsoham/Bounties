@@ -1,0 +1,24 @@
+query Bounties($after: String) {
+  bountySearch(input: { searchQuery: "", count: 10, after: $after }) {
+    ...on BountySearchConnection {
+      items {
+				owned: isCurrentUserBountySolver
+        id title
+        description
+        deadline
+        solverPayout
+				user {
+					username
+					fullName
+				}
+				status
+      }
+      pageInfo {
+        hasAfter: hasNextPage
+        after: nextCursor
+      }
+    }
+    ...on UserError { message }
+    ...on UnauthorizedError { message }
+  }
+}
